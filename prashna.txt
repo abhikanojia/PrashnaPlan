@@ -1,0 +1,59 @@
+Prashna
+----------------
+Controllers
+
+1. Users
+2. Credits
+3. Admins
+	- Users
+	- Questions
+	- Topics
+	- Answers
+4. Questions
+5. Comments
+6. Votings
+7. Topics
+8. Answers
+
+-- Entity Relationship
+
+1. User -- has many --> Questions
+2. Question -- has many --> Comments
+3. Topic -- has many --> Questions
+4. User -- has many --> Followers -> self
+5. Question -- belongs To --> Topic
+6. Question -- belongs to --> User
+7. User -- has many --> Credits
+8. Credits -- belongs To --> User
+
+-- Model --
+
+1. User
+2. Credit
+3. Admin
+4. Question
+5. Topic
+6. Comment
+7. Voting
+
+-- Migrations --
+
+1. users
+  - email(string)
+  - name(string)
+  - password
+  - confirmation_token
+  - role (enum)
+  - timestamps
+  
+2. questions
+	- title (string) index
+	- content (text)
+	- slug
+	- saved_on
+	- published_on
+	- votes_count
+	- timestamps
+  
+  
+  
