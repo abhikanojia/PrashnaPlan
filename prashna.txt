@@ -3,6 +3,7 @@ Prashna
 Controllers
 
 1. Users
+	- Profile
 2. Credits
 3. Admins
 	- Users
@@ -14,8 +15,10 @@ Controllers
 6. Votings
 7. Topics
 8. Answers
+9. PasswordReset
+10. Orders
 
--- Entity Relationship
+-- Entity Relationship --
 
 1. User -- has many --> Questions
 2. Question -- has many --> Comments
@@ -25,6 +28,10 @@ Controllers
 6. Question -- belongs to --> User
 7. User -- has many --> Credits
 8. Credits -- belongs To --> User
+9. Answer -- has many --> Comments
+10. Comments -- has many --> Votes
+11. Questions -- has many --> Reports
+12. User -- has one --> Profile
 
 -- Model --
 
@@ -35,25 +42,81 @@ Controllers
 5. Topic
 6. Comment
 7. Voting
+8. Answer
+9. Reports
+10. PasswordReminder
+11. Profile
 
 -- Migrations --
 
 1. users
   - email(string)
-  - name(string)
   - password
   - confirmation_token
   - role (enum)
+  - is_active :boolean
+  - activated_at: datetime
+  - timestamps
+  - firstname
+  - lastname
+  - location
+  - picture_path
+  - picture_filename
+  - user_id
   - timestamps
   
 2. questions
-	- title (string) index
-	- content (text)
+	- title: index
+	- content
 	- slug
 	- saved_on
 	- published_on
-	- votes_count
+	- is_published boolean: true
+	- user_id ref: users
+	- topic_id ref: topics
+	- filename: allowed doc, docx and pdf
+	- filepath
+	- timestamps
+
+3. answers
+	- question_id ref: questions	
+	- body
+	- user_id
+	- is_published boolean: true
+	- timestamps
+	
+4. topics
+	- name
+	- timestamps
+	
+5. credits
+	- user_id ref: users
+	- count, default: 5
+	
+6. comments
+	- user_id ref: users
+	- body
+	- reply_to ref: comment_id
+	- question_id/answer_id
+
+7. votings
+	- question_id ref: questions
+	- score decimal(1,1)
+	- user_id ref: users
+	  
+8. orders
+	- user_id ref: users
+	- credits
+	- total_price
 	- timestamps
   
-  
-  
+9. question_reports
+	- question_id ref:questions
+	- user_id ref: user_id
+	- reported boolean, default: true
+	
+10. password_reminders
+	- token:string
+	- user_id ref: users
+	- expires_at datetime
+	
